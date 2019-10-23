@@ -13,11 +13,14 @@ private:
 
 public:
     Fraction(int n, int d);
+    Fraction(const Fraction& rhs);
 
     friend Fraction operator + (Fraction const & f1, Fraction const & f2);
     friend Fraction operator - (Fraction const & f1, Fraction const & f2);
     friend Fraction operator * (Fraction const & f1, Fraction const & f2);
     friend Fraction operator / (Fraction const & f1, Fraction const & f2);
+    Fraction& operator = (const Fraction &rhs);
+    Fraction& operator ++ ();
     friend ostream & operator << (ostream &out, const Fraction &f);
     friend istream & operator >> (istream &inp, Fraction &f);
     
@@ -34,6 +37,13 @@ Fraction::Fraction(int n, int d)
     num = n; 
     denum = d;
     reduce();
+}
+
+
+Fraction::Fraction(const Fraction& rhs)
+{
+    num = rhs.num;
+    denum = rhs.denum;
 }
 
 
@@ -95,6 +105,19 @@ Fraction operator / (Fraction const & f1, Fraction const & f2)
     );
     res.reduce();
     return res;
+}
+
+
+Fraction& Fraction::operator= (const Fraction &rhs)
+{
+    auto f = new Fraction(rhs);
+    return *f;
+}
+
+
+Fraction& Fraction::operator ++ ()
+{
+    num += 1;
 }
 
 
