@@ -12,6 +12,7 @@ private:
     void normalize();
 
 public:
+    Fraction();
     Fraction(int n, int d);
     Fraction(const Fraction& rhs);
 
@@ -21,6 +22,7 @@ public:
     friend Fraction operator / (Fraction const & f1, Fraction const & f2);
     Fraction& operator = (const Fraction &rhs);
     Fraction& operator ++ ();
+    Fraction& operator ++ (int);
     friend ostream & operator << (ostream &out, const Fraction &f);
     friend istream & operator >> (istream &inp, Fraction &f);
     
@@ -30,6 +32,13 @@ public:
     void times(int factor) { num *= factor; reduce(); }
 
 };
+
+
+Fraction::Fraction()
+{
+    num = 0; 
+    denum = 1;
+}
 
 
 Fraction::Fraction(int n, int d)
@@ -108,16 +117,26 @@ Fraction operator / (Fraction const & f1, Fraction const & f2)
 }
 
 
-Fraction& Fraction::operator= (const Fraction &rhs)
+Fraction& Fraction::operator = (const Fraction &rhs)
 {
     auto f = new Fraction(rhs);
     return *f;
 }
 
 
+// prefix increment
 Fraction& Fraction::operator ++ ()
 {
     num += 1;
+    reduce();
+}
+
+
+// postfix increment
+Fraction& Fraction::operator ++ (int)
+{
+    num += 100;
+    reduce();
 }
 
 

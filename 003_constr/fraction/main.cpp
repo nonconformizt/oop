@@ -2,19 +2,21 @@
 #include "./fract_vector.cpp"
 using namespace std;
 
+#define VECTOR_LEN 10
 
 int main()
 {
-    auto vec1 = FractionVector(10);
-    auto vec2 = FractionVector(10);
+    auto vec1 = FractionVector(VECTOR_LEN);
+    auto vec2 = FractionVector(VECTOR_LEN);
 
     vec1.print();
     vec2.print();
 
     auto vec3 = vec1 + vec2;
+    cout << "\nSum of vectors: \n";
     vec3.print();
 
-    cout << "\nMultiply by 2\n";
+    cout << "\nMultiply by 2: \n";
     vec3.times(2);
     vec3.print();
 

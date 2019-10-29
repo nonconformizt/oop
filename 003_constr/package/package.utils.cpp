@@ -32,7 +32,15 @@ list<Package> * readPackageList()
     auto res = new list<Package>;
 
     // TODO: get filename
-    ifstream input("test.txt");
+    string filename;
+    ifstream input;
+
+    do {
+        cout << "Insert file name: ";
+        cin >> filename;
+        input.open(filename);
+    } while (!input.is_open());
+
     string tmp;
 
     while (getline(input, tmp)) 
@@ -50,7 +58,7 @@ double packageAverageWeight(list<Package> * pkgs)
         res += pkg.getWeight();
     res /= pkgs->size();
 
-    return res;
+    return res; 
 }
 
 
@@ -65,6 +73,29 @@ double packageAverageCost(list<Package> * pkgs)
     return res;
 }
 
+
+void findPackageForReceiver(list<Package> * pkgs)
+{
+    string name;
+    cout << "\n=> Insert receiver name: \n";
+    cin >> name;
+
+    list<Package> found;
+
+    for (auto & pkg : *pkgs)
+        if (pkg.getReceiver() == name)
+            found.push_back(pkg);
+
+    if (found.size() > 0) {
+        cout << "\n=> Packages found: \n";
+        for (auto & pkg : found)
+            pkg.print();
+    }
+    else {
+        cout << "\n=> Nothing found.\n";
+    }
+
+}
 
 
 #endif

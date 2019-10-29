@@ -6,7 +6,6 @@ using namespace std;
 
 
 
-
 int main()
 {
     list<Package> * pkgs = readPackageList();
@@ -17,5 +16,8 @@ int main()
     cout << "\nAverage weight: " << packageAverageWeight(pkgs) << endl;
     cout << "\nAverage cost: " << packageAverageCost(pkgs) << endl;
 
+    findPackageForReceiver(pkgs);
+
     return 0;
 }
+

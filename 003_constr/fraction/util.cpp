@@ -9,7 +9,7 @@ template <typename T> int sgn(T val);
 
 
 /** 
- * Find greatest common divisor
+ * Find greatest common divisor of two integers
 */
 int gcd(int a, int b) 
 {
@@ -20,17 +20,22 @@ int gcd(int a, int b)
 
 
 /**
- * Generate random integer
+ * Generate non-zero random integer in a range
 */
 int rnd(int a, int b)
 {
     std::uniform_int_distribution<int> distribution(a, b);
-    int dice_roll = distribution(mt);
+    int dice_roll = 0;
+    do {
+        dice_roll = distribution(mt);
+    } while (dice_roll == 0);
 }
 
 
 /**
  * Sign of a number
+ * Copypasted this from stackoverflow, 
+ * have no idea how it works
 */
 template <typename T> int sgn(T val) {
     return (T(0) < val) - (val < T(0));
