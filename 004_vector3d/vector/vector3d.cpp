@@ -6,7 +6,9 @@ namespace oop
 {
 
 class Dot3D {
-    public: double x, y, z;
+public: 
+    double x, y, z;
+
 };
 
 
