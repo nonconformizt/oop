@@ -16,9 +16,9 @@ int main ()
     tree->insert(5);
     tree->insert(7);
 
-    tree->deleteNode(2);
+    tree->deleteNode(111);
 
-    cout << tree->min()->getNumValue() << endl;
+    cout << tree->sum() << endl;
 
     return 0;
 }

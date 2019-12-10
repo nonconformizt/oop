@@ -135,12 +135,14 @@ private:
     void traverse(TreeNode<T> * node);
     TreeNode<T> * deleteNode(TreeNode<T> * node, int key);
     TreeNode<T> * minValueNode(TreeNode<T> * node);
+    int sum(TreeNode<T> * node);
 
 public: 
     void insert(T data);
     void print();
     void deleteNode(int key);
     TreeNode<T> * min();
+    int sum();
 
 };
 
@@ -174,6 +176,7 @@ void Tree<T>::traverse(TreeNode<T> * node)
 
 }
 
+
 template <typename T>
 void Tree<T>::deleteNode(int key)
 {
@@ -185,13 +188,13 @@ template <typename T>
 TreeNode<T> * Tree<T>::deleteNode(TreeNode<T> * node, int data)
 { 
     if (node == nullptr) return node; 
-  
+
     if (data < node->getNumValue()) 
         node->left = deleteNode(node->left, data); 
 
     else if (data > node->getNumValue()) 
         node->right = deleteNode(node->right, data); 
-  
+
     else
     { 
         if (node->left == nullptr) 
@@ -238,6 +241,24 @@ TreeNode<T> * Tree<T>::min()
 
     return temp;
 }
+
+
+template<typename T>
+int Tree<T>::sum()
+{
+    return sum(root);
+}
+
+
+template<typename T>
+int Tree<T>::sum(TreeNode<T> * node)
+{
+    if (node == nullptr) 
+        return 0;
+
+    return sum(node->left) + node->getNumValue() + sum(node->right);
+}
+
 
 
 
