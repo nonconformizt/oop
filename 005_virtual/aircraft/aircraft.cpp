@@ -28,74 +28,91 @@ public:
 };
 
 
+
+/***************************************************************************/
+
+
+
 template <typename T>
 class TreeNode {
 
 public:
-    T data;
     TreeNode<T> * left = nullptr;
     TreeNode<T> * right = nullptr;
 
     TreeNode(T data) { this->data = data; }
+    int getNumValue();
+    T getRealValue() { return data; };
+    void setRealValue(T data) { this->data = data; };
     void insert(T value);
     void print();
+
+private: 
+    T data;
 
 };
 
 
-// template <>
-// void TreeNode< std::queue<Flight *> >::insert( std::queue<Flight *> queue)
-// {
-//     if (queue.size() < data.size())
-//         if (left == nullptr)
-//             left = new TreeNode<std::queue<Flight *>>(queue);
-//         else 
-//             left->insert(queue);
-//     else 
-//         if (right == nullptr)
-//             right = new TreeNode<std::queue<Flight *>>(queue);
-//         else 
-//             right->insert(queue);
-// }
+template <>
+int TreeNode <std::queue<Flight *>> ::getNumValue()
+{
+    return data.size();
+}
+
+template <typename T>
+int TreeNode<T>::getNumValue()
+{
+    return data;
+}
+
+
+template <>
+void TreeNode< std::queue<Flight *> >::insert( std::queue<Flight *> queue)
+{
+    if (queue.size() < data.size())
+        if (left == nullptr)
+            left = new TreeNode <std::queue<Flight *>> (queue);
+        else 
+            left->insert(queue);
+    else 
+        if (right == nullptr)
+            right = new TreeNode <std::queue<Flight *>> (queue);
+        else 
+            right->insert(queue);
+}
 
 
 template <typename T>
 void TreeNode<T>::insert(T value)
 {
-    if (value < data) {
-        if (left == nullptr) {
-            auto node = new TreeNode<T>(value);
-            node->left = nullptr;
-            node->right = nullptr;
-            left = node;
-        }
+    if (value < data) 
+    {
+        if (left == nullptr)
+            left = new TreeNode<T>(value);
         else 
             left->insert(value);
     }
-    else {
-        if (right == nullptr) {
-            auto node = new TreeNode<T>(value);
-            node->left = nullptr;
-            node->right = nullptr;
-            right = node;
-        }
+    else 
+    {
+        if (right == nullptr)
+            right = new TreeNode<T>(value);
         else 
             right->insert(value);
     }
 }
 
 
-// template <>
-// void TreeNode< std::queue<Flight *> >::print()
-// {
-//     std::cout << "=== Node: \n";
-//     while(!data.empty())
-//     {
-//         data.front()->print();
-//         data.pop();
-//     }
-//     std::cout << "=== End of node: \n\n";
-// }
+template <>
+void TreeNode< std::queue<Flight *> >::print()
+{
+    std::cout << "=== Node: \n";
+    while(!data.empty())
+    {
+        data.front()->print();
+        data.pop();
+    }
+    std::cout << "=== End of node: \n\n";
+}
 
 
 template <typename T>
@@ -106,6 +123,8 @@ void TreeNode<T>::print()
 
 
 
+/***************************************************************************/
+
 
 
 template <typename T>
@@ -113,19 +132,22 @@ class Tree {
 
 private: 
     TreeNode<T> * root;
+    void traverse(TreeNode<T> * node);
+    TreeNode<T> * deleteNode(TreeNode<T> * node, int key);
+    TreeNode<T> * minValueNode(TreeNode<T> * node);
 
 public: 
     void insert(T data);
     void print();
-    void traverse(TreeNode<T> * node);
-
+    void deleteNode(int key);
+    TreeNode<T> * min();
 
 };
 
 
 template <typename T>
 void Tree<T>::insert(T data)
-{   
+{
     if (root == nullptr)
         root = new TreeNode<T>(data);
     else
@@ -146,14 +168,76 @@ void Tree<T>::traverse(TreeNode<T> * node)
     if (node != nullptr)
     {
         traverse(node->left);
-        // node->print();
-        std::cout << node->data;
+        node->print();
         traverse(node->right);
     }
 
 }
 
+template <typename T>
+void Tree<T>::deleteNode(int key)
+{
+    root = deleteNode(root, key);
+}
 
+
+template <typename T>
+TreeNode<T> * Tree<T>::deleteNode(TreeNode<T> * node, int data)
+{ 
+    if (node == nullptr) return node; 
+  
+    if (data < node->getNumValue()) 
+        node->left = deleteNode(node->left, data); 
+
+    else if (data > node->getNumValue()) 
+        node->right = deleteNode(node->right, data); 
+  
+    else
+    { 
+        if (node->left == nullptr) 
+        { 
+            TreeNode<T> * temp = node->right; 
+            delete node;
+            return temp; 
+        } 
+        else if (node->right == nullptr) 
+        {
+            TreeNode<T> * temp = node->left; 
+            delete node;
+            return temp; 
+        } 
+  
+        TreeNode<T> * temp = minValueNode(node->right); 
+  
+        node->setRealValue(temp->getRealValue()); 
+  
+        node->right = deleteNode(node->right, temp->getNumValue()); 
+    } 
+    return node;
+} 
+
+
+template <typename T>
+TreeNode<T> * Tree<T>::minValueNode(TreeNode<T> * node) 
+{ 
+    TreeNode<T> * current = node; 
+  
+    while (current && current->left != nullptr) 
+        current = current->left; 
+  
+    return current; 
+} 
+
+
+template<typename T>
+TreeNode<T> * Tree<T>::min()
+{
+    auto temp = root;
+    while (temp->left)
+        temp = temp->left;
+
+    return temp;
+}
 
 
 
