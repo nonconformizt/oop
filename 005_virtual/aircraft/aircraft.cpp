@@ -21,8 +21,23 @@ public:
         this->days = days;
     }
 
+    Flight() {
+        fill();
+    }
+
     void print() {
         std::cout << "Flight number: " << number << "; time: " << time << "; week days: " << days << std::endl;
+    }
+
+    void fill() {
+        std::cout << "Insert flight number: ";
+        std::cin >> number;
+
+        std::cout << "Insert time: ";
+        std::cin >> time;
+
+        std::cout << "Insert flight days: ";
+        std::cin >> days;
     }
 
 };
@@ -138,6 +153,8 @@ private:
     int sum(TreeNode<T> * node);
 
 public: 
+    Tree() {};
+    ~Tree() {};
     void insert(T data);
     void print();
     void deleteNode(int key);
